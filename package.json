@@ -1,8 +1,8 @@
 {
-  "name": "proyecto_quiz",
-  "version": "0.0.0",
-  "private": true,
-  "scripts": {
+ "name": "proyecto_quiz",
+ "version": "0.0.0",
+ "private": true,
+ "scripts": {
     "start": "node ./bin/www"
   },
   "dependencies": {
