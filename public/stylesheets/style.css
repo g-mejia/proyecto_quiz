@@ -7,5 +7,5 @@ body 					{font: 16px Georgia, serif; }
 
 section > div			{padding: 20px; }
 header, nav, section 	{background: #EEE; text-align: center; }
-footer 					{background: #EEE; text-align: center; font:16px Georgia, serif; }
+footer 					{background: #EEE; text-align: center; }
 nav span 				{margin: 0px 10px 0px 0px; }
