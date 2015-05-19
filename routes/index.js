@@ -36,6 +36,10 @@ router.post('/quizes/:quizId(\\d+)/comments',    commentController.create);
 router.get('/quizes/:quizId(\\d+)/comments/:commentId(\\d+)/publish',
                                                  sessionController.loginRequired, commentController.publish);
 
+//Definicion de ruta de estadísticas
+router.get('/quizes/statistics', quizController.showStatistics);
+
+// Definicion de rutas de créditos
 router.get('/author', function(req, res, next) {
   res.render('author', { title: 'Autores', errors: [] });
 });

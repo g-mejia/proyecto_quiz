@@ -95,9 +95,29 @@ exports.update = function(req,res){
 	);
 };
 
-//Delete /quizes/:id
+//DELETE /quizes/:id
 exports.destroy = function(req, res){
 	req.quiz.destroy().then(function(){
 		res.redirect('/quizes');
 	}).catch(function(error){next(error)});
+};
+
+//GET /quizes/statistics
+exports.showStatistics = function(req, res) {
+	models.Quiz.findAll({include:[{model: models.Comment}]})
+	.then(function(quizes){
+		models.Comment.count().then(function(comments){
+
+			var numPreguntas = quizes.length;
+			var media = comments/numPreguntas;
+			var preguntasConComentarios=0;
+			for(i=0; i<numPreguntas; i++){
+				if(quizes[i].Comments.length>0){
+					preguntasConComentarios++;
+				}
+			}
+			var preguntasSinComentarios= numPreguntas - preguntasConComentarios;
+			res.render('quizes/statistics', {numPreguntas: numPreguntas, comments: comments, media: media, preguntasConComentarios: preguntasConComentarios, preguntasSinComentarios: preguntasSinComentarios, errors:[]});
+		});
+	});
 };
