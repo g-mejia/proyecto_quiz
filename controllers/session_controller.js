@@ -15,7 +15,7 @@ exports.new = function(req, res) {
   res.render('sessions/new', {errors: errors});
 };
 
-//POST /login  --Crear la sesion
+//POST /login  --Crear la sesion si es usuario se autentica
 exports.create = function(req, res) {
 
   var login = req.body.login;
@@ -33,7 +33,7 @@ exports.create = function(req, res) {
 
     // Crear req.session.user y guardar campos id y username
     // La sesión se define por la existencia de: req.session.user
-    req.session.user = {id: user.id, username: user.username, hora: hora};
+    req.session.user = {id: user.id, username: user.username, isAdmin: user.isAdmin, hora: hora};
 
     res.redirect(req.session.redir.toString());//redireccion a path anterior a login
   });
