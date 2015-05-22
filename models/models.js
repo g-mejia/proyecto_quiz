@@ -34,33 +34,45 @@ var Quiz = sequelize.import(quiz_path);
 var comment_path = path.join(__dirname, 'comment');
 var Comment = sequelize.import(comment_path);
 
+// Importar definición de la tabla User
+var user_path = path.join(__dirname, 'user');
+var User = sequelize.import(user_path);
+
 Comment.belongsTo(Quiz);
 Quiz.hasMany(Comment);
 
+// Los quizes pertenecen a un usuario registrado
+Quiz.belongsTo(User);
+User.hasMany(Quiz);
+
+// Exportar las tablas
 exports.Quiz = Quiz; // exportar definicion de tabla Quiz
 exports.Comment = Comment;
+exports.User = User;
 
 // sequelize.sync() crea e iniciliza tabla de preguntas en DB
 sequelize.sync().then(function() {
 	// then(..) ejecuta el manejador una vez creada la tabla
-	Quiz.count().then(function (count){
-		if(count === 0) {   // la tabla se inicializa sólo si está vacía
-			Quiz.create({ pregunta: 'Capital de Italia',
-						  respuesta: 'Roma'
+	User.count().then(function (count){
+		if(count === 0) {   //la tabla se inicializa solo si está vacía
+			User.bulkCreate(
+				[ {username: 'admin', password: '1234', isAdmin: true},
+				  {username: 'pepe', password: '5678'} // isAdmin por defecto: 'false'
+					]
+			).then(function() {
+				console.log('Base de datos (tabla User) inicializada');
+				Quiz.count().then(function (count) {
+					if(count === 0) {  // la tabla se inicializa solo si esta vacía
+						Quiz.bulkCreate(  // estos quizes pertenecen al usuario (2)
+							[ {pregunta: 'Capital de Italia', respuesta: 'Roma', UserId: 2},
+								{pregunta: 'Capital de Portugal', respuesta: 'Lisboa', UserId: 2}
+							]
+						).then(function() {
+							console.log('Base de datos (tabla Quiz) inicializada')
 						});
-			Quiz.create({ pregunta: 'Capital de Portugal',
-						  respuesta: 'Lisboa'
-						});
-			Quiz.create({ pregunta: 'Capital de Alemania',
-						  respuesta: 'Berlín'
-						});
-			Quiz.create({ pregunta: 'Río que pasa por Londres',
-						  respuesta: 'Támesis'
-						});
-			Quiz.create({ pregunta: 'Capital de España',
-						  respuesta: 'Madrid'
-						})
-			.then(function(){console.log('Base de datos inicializada')});
+					};
+				});
+			});
 		};
 	});
 });
