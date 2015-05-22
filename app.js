@@ -29,6 +29,31 @@ app.use(session());
 app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')));
 
+
+//MW de Logout al pasar 2min
+app.use(function(req, res, next){
+    var horaActual = new Date();
+
+    if(req.session.user){
+        if(req.session.user.hora){
+        var horaUltimaTransaccion = new Date(req.session.user.hora);
+        var tiempoLogout= horaActual - horaUltimaTransaccion;
+
+        if(tiempoLogout>120000){
+            delete req.session.user;
+            res.redirect("/");
+            next();
+            return;
+            }
+        }
+          req.session.user.hora= new Date();
+    }
+    next();
+
+});
+
+
+
 //Helpers dinamicos:
 app.use(function(req, res, next) {
   //guardar path en session.redir para despues login
