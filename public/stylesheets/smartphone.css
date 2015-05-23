@@ -8,7 +8,7 @@ body 					{font: 16px Georgia, serif; }
 section > div			{padding: 20px; }
 header, nav, section 	{background: #EEE; text-align: center; }
 footer 					{background: #EEE; text-align: center; }
-nav span 				{margin: 0px 10px 0px 0px; } 
+nav span 				{margin: 0px 10px 0px 0px; }
 
 
 //en caso de conflicto, preferencia lo siguiente (css smartphone)
@@ -16,6 +16,8 @@ body 					{background: #333; }
 
 #page-wrap:after 		{content: "Smartphone Layout"; }
 
-h2 span, section h3  	{display: none;}
+h2 span, section h3, label.rem  	{display: none;}
 body 					{font-size: xx-large; }
-footer, input 			{font-size: large; }
+input, button 			{font-size: x-large; }
+footer					{font-size: large; }
+.quiz_img				{ float: none;}
