@@ -30,13 +30,19 @@ exports.load = function(req, res, next, quizId) {
 };
 
 // GET /quizes
+// GET /users/:userId/quizes
 exports.index = function(req, res) {
-			var s = req.query.search || '';
-			var s_like = "%" + s.replace(/ +/g, "%") + "%";
-			models.Quiz.findAll({ where: ["pregunta like ?", s_like],
-														order: ["pregunta"]})
-			.then(function(quizes) {
-				res.render('quizes/index', {quizes: quizes, errors: []});
+	var s = req.query.search || '';
+	var s_like = "%" + s.replace(/ +/g, "%") + "%";
+	var options = { where: ["pregunta like ?", s_like],
+									order: ["pregunta"]};
+	if(req.user) {   // req.user es creado por autoload de usuario si la ruta lleva el parámetro .quizId
+		options.where = { UserId: req.user.id}
+	}
+
+	models.Quiz.findAll(options)
+		.then(function(quizes) {
+			res.render('quizes/index.ejs', {quizes: quizes, errors: []});
 			}
 	).catch(function(error) { next(error);})
 };
