@@ -45,6 +45,10 @@ Quiz.hasMany(Comment);
 Quiz.belongsTo(User);
 User.hasMany(Quiz);
 
+// Relación N a N entre usuarios y quizes a través de favoritos
+User.belongsToMany(Quiz, {as: "favourites", through: 'Favourites'});
+Quiz.belongsToMany(User, {as: "Fans", through: 'Favourites'});
+
 // Exportar las tablas
 exports.Quiz = Quiz; // exportar definicion de tabla Quiz
 exports.Comment = Comment;

@@ -11,6 +11,9 @@
     <%if (quiz.image) {%>
       <p><img class="quiz_img" src="/media/<%= quiz.image %>"></p>
     <% } %>
+
+    <%- include ../favourites/_stars.ejs %>
+
     <form method="get" action="/quizes/<%= quiz.id %>/answer">
     	Pregunta: <%= quiz.pregunta %> <p>
     	<input type="text" name="respuesta" value="Respuesta"/>

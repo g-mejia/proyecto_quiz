@@ -1,0 +1,12 @@
+<% if(session.user) { %>
+  <%  var method = quiz.favourite ? "delete" : "put";
+      var color = quiz.favourite ? "yellow" : "grey";
+  %>
+
+  <form class="stars" method="post"
+        action="/user/<%= session.user.id %>/favourites/<%= quiz.id%>?_method=<%= method %>" >
+        <input type="hidden" name="redir" value="<%= url || '' %>"/>
+        <input type="image" src="/images/star_<%= color %>.jpg"/>
+  </form>
+
+<% } %>
